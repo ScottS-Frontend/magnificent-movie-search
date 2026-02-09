@@ -1,0 +1,161 @@
+/* src/components/Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #6a0dad;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffd700;
+}
+
+.navbar__title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: none;
+}
+
+.navbar__toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.toggle__bar {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.navbar__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #6a0dad;
+  padding: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.navbar__menu--open {
+  display: flex;
+}
+
+.navbar__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.navbar__links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  position: relative;
+  display: inline-block;
+}
+
+.navbar__links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffd700;
+  transition: width 0.3s;
+}
+
+.navbar__links a:hover::after {
+  width: 100%;
+}
+
+.navbar__search {
+  display: flex;
+  gap: 8px;
+}
+
+.navbar__input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid #ffd700;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.navbar__input:focus {
+  border-color: #fff;
+}
+
+.navbar__button {
+  padding: 8px 16px;
+  background: #ffd700;
+  color: #6a0dad;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.navbar__button:hover {
+  transform: translateY(-2px);
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .navbar__title {
+    display: block;
+  }
+
+  .navbar__toggle {
+    display: none;
+  }
+
+  .navbar__menu {
+    position: static;
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .navbar__links {
+    flex-direction: row;
+    gap: 30px;
+    margin-right: 30px;
+  }
+
+  .navbar__search {
+    width: auto;
+  }
+
+  .navbar__input {
+    width: 200px;
+  }
+}

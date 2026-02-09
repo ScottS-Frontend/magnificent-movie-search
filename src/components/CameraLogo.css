@@ -1,0 +1,104 @@
+/* src/components/CameraLogo.css */
+.camera-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small size for navbar */
+.camera-logo--small {
+  width: 40px;
+  height: 40px;
+}
+
+.camera-logo--small .camera-logo__body {
+  width: 36px;
+  height: 24px;
+  background: linear-gradient(180deg, #5a0c9d 0%, #3d0066 100%);
+  border-radius: 4px;
+  border: 2px solid #ffd700;
+  position: relative;
+}
+
+.camera-logo--small .camera-logo__reel {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: repeating-conic-gradient(
+    from 0deg,
+    #2a2a2a 0deg 30deg,
+    #3a3a3a 30deg 60deg
+  );
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  top: -8px;
+}
+
+.camera-logo--small .camera-logo__reel--left {
+  left: 2px;
+}
+
+.camera-logo--small .camera-logo__reel--right {
+  right: 2px;
+}
+
+.camera-logo--small .camera-logo__lens {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 30% 30%, #666 0%, #111 100%);
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+}
+
+/* Large size for other uses */
+.camera-logo--large {
+  width: 80px;
+  height: 80px;
+}
+
+.camera-logo--large .camera-logo__body {
+  width: 70px;
+  height: 45px;
+  background: linear-gradient(180deg, #5a0c9d 0%, #3d0066 100%);
+  border-radius: 8px;
+  border: 3px solid #ffd700;
+  position: relative;
+}
+
+.camera-logo--large .camera-logo__reel {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: repeating-conic-gradient(
+    from 0deg,
+    #2a2a2a 0deg 30deg,
+    #3a3a3a 30deg 60deg
+  );
+  border-radius: 50%;
+  border: 3px solid #ffd700;
+  top: -15px;
+}
+
+.camera-logo--large .camera-logo__reel--left {
+  left: 5px;
+}
+
+.camera-logo--large .camera-logo__reel--right {
+  right: 5px;
+}
+
+.camera-logo--large .camera-logo__lens {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle at 30% 30%, #666 0%, #111 100%);
+  border-radius: 50%;
+  border: 3px solid #ffd700;
+}
