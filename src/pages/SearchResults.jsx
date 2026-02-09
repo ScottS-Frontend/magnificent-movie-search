@@ -1,12 +1,20 @@
-// src/pages/SearchResults.js
+// src/pages/SearchResults.jsx
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import "./SearchResults.css";
 
+// Sorters (module scope so it doesn't recreate every render)
+const SORTERS = {
+  titleAsc: (a, b) => a.Title.localeCompare(b.Title),
+  titleDesc: (a, b) => b.Title.localeCompare(a.Title),
+  yearAsc: (a, b) => Number(a.Year) - Number(b.Year),
+  yearDesc: (a, b) => Number(b.Year) - Number(a.Year),
+};
+
 function SearchResults() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
-  const page = parseInt(searchParams.get("page")) || 1;
+  const page = parseInt(searchParams.get("page"), 10) || 1;
 
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,18 +22,25 @@ function SearchResults() {
   const [totalResults, setTotalResults] = useState(0);
   const [sortValue, setSortValue] = useState("");
 
-  // Sorters
-  const sorters = {
-    titleAsc: (a, b) => a.Title.localeCompare(b.Title),
-    titleDesc: (a, b) => b.Title.localeCompare(a.Title),
-    yearAsc: (a, b) => Number(a.Year) - Number(b.Year),
-    yearDesc: (a, b) => Number(b.Year) - Number(a.Year),
-  };
+  const apiKey = process.env.REACT_APP_OMDB_API_KEY;
 
   // Fetch movies
   useEffect(() => {
     if (!query) {
       setLoading(false);
+      setMovies([]);
+      setTotalResults(0);
+      setError(null);
+      return;
+    }
+
+    if (!apiKey) {
+      setLoading(false);
+      setMovies([]);
+      setTotalResults(0);
+      setError(
+        "Missing OMDb API key. Set REACT_APP_OMDB_API_KEY in your environment variables.",
+      );
       return;
     }
 
@@ -34,31 +49,33 @@ function SearchResults() {
       setError(null);
 
       try {
-        const response = await fetch(
-          `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&page=${page}&type=movie&apikey=544e1ad3`,
-        );
+        const url = `https://www.omdbapi.com/?s=${encodeURIComponent(
+          query,
+        )}&page=${page}&type=movie&apikey=${apiKey}`;
+
+        const response = await fetch(url);
         const data = await response.json();
 
         if (data.Response === "False") {
-          throw new Error(data.Error);
+          throw new Error(data.Error || "Search failed.");
         }
 
         setMovies(data.Search || []);
-        setTotalResults(parseInt(data.totalResults) || 0);
+        setTotalResults(parseInt(data.totalResults, 10) || 0);
       } catch (err) {
-        setError(err.message);
+        setError(err?.message || "Something went wrong.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchMovies();
-  }, [query, page]);
+  }, [query, page, apiKey]);
 
   // Sort movies
   const sortedMovies = useMemo(() => {
-    if (!sortValue || !sorters[sortValue]) return movies;
-    return [...movies].sort(sorters[sortValue]);
+    if (!sortValue || !SORTERS[sortValue]) return movies;
+    return [...movies].sort(SORTERS[sortValue]);
   }, [movies, sortValue]);
 
   const totalPages = Math.ceil(totalResults / 10);
@@ -145,12 +162,15 @@ function SearchResults() {
                 : "pagination__link"
             }
             onClick={(e) => page <= 1 && e.preventDefault()}
+            aria-disabled={page <= 1}
           >
             ← Previous
           </Link>
+
           <span className="pagination__info">
             Page {page} of {totalPages}
           </span>
+
           <Link
             to={`/search?q=${encodeURIComponent(query)}&page=${page + 1}`}
             className={
@@ -159,6 +179,7 @@ function SearchResults() {
                 : "pagination__link"
             }
             onClick={(e) => page >= totalPages && e.preventDefault()}
+            aria-disabled={page >= totalPages}
           >
             Next →
           </Link>
@@ -184,6 +205,7 @@ function Poster({ image, title, year }) {
           onError={() => setError(true)}
         />
       )}
+
       {showPlaceholder && (
         <div className="poster__placeholder">
           <span className="poster__icon">🎬</span>
@@ -192,6 +214,7 @@ function Poster({ image, title, year }) {
           <span className="poster__label">Poster Not Available</span>
         </div>
       )}
+
       <div className="hover__info">
         <h3 className="hover__title">{title}</h3>
         <p className="hover__year">{year}</p>

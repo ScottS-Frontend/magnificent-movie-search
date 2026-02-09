@@ -10,13 +10,13 @@ function Footer() {
           <h3 className="footer__title">Magnificent Movie Search</h3>
           <p className="footer__text">Find your favorite films in seconds.</p>
           <div className="footer__socials">
-            <a href="#" className="social__link" aria-label="Facebook">
+            <a href="/" className="social__link" aria-label="Facebook">
               f
             </a>
-            <a href="#" className="social__link" aria-label="Twitter">
+            <a href="/" className="social__link" aria-label="Twitter">
               t
             </a>
-            <a href="#" className="social__link" aria-label="GitHub">
+            <a href="/" className="social__link" aria-label="GitHub">
               g
             </a>
           </div>
